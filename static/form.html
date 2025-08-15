@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+<head>
+    <title>Write Me a message</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: none;
+            border: none;
+            list-style: none;
+            text-decoration: none;
+            font-family: "Poppins", sans-serif;
+        }
+
+        ::selection {
+            color: black;
+            background-color: #bea060;
+        }
+
+        header {
+            width: 100%;
+            min-height: 100vh;
+            background-color: black;
+            display: flex;
+        }
+
+        .header-left-side {
+            padding: 0 20px;
+            color: white;
+            flex: 1;
+        }
+
+        .header-left-side h1 {
+            color: #bea060;
+            line-height: 1.2em;
+            font-size: 48px;
+            padding-top: 20px;
+            margin-bottom: 20px;
+        }
+
+        .header-left-side h2 {
+            color: #bea060;
+            font-family: "Inter", sans-serif;
+            font-size: 20px;
+            line-height: 1.2em;
+            font-weight: 500;
+            letter-spacing: 2px;
+            padding: 10px;
+        }
+
+        .header-left-side p {
+            margin-top: 5%;
+            margin-bottom: 10%;
+            font-family: "Inter", sans-serif;
+            letter-spacing: 2px;
+            font-size: 16px;
+            color: #c1bfbf;
+            line-height: 2;
+        }
+
+        button {
+            padding: 15px 20px;
+            border: 2px solid #bea060;
+            background: transparent;
+            width: 100%;
+            color: white;
+            margin-right: 15px;
+            font-family: "Inter", sans-serif;
+            font-size: 20px;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 16px;
+
+        }
+
+        button:hover {
+            background-color: #bea060;
+            transition: 0.7s;
+        }
+
+        .btn {
+            width: 97%;
+            background-color: #bea060;
+        }
+
+        .header-left-side h3 {
+            color: #c1bfbf;
+            padding-top: 80px;
+            font-family: "Inter", sans-serif;
+            font-weight: 300;
+        }
+
+        .header-right-side img {
+            max-width: 100%;
+            height: auto;
+            margin-top: 15%;
+        }
+
+        /* Media query for smaller screens */
+        @media only screen and (max-width: 768px) {
+            .header-left-side {
+                padding: 0 10px;
+            }
+
+            .header-left-side h1 {
+                font-size: 36px;
+            }
+
+            .header-left-side h2 {
+                font-size: 18px;
+            }
+
+            .header-left-side p {
+                font-size: 14px;
+            }
+
+            button {
+                padding: 10px 15px;
+                font-size: 16px;
+                border-radius: 16px;
+
+            }
+        }
+
+        /* Form styling */
+        .contact-form {
+            margin-top: 50px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .input-field {
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .input-field input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #bea060;
+            border-radius: 5px;
+            background-color: transparent;
+            color: white;
+        }
+
+        .input-field textarea {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid #bea060;
+            border-radius: 5px;
+            background-color: transparent;
+            color: white;
+            resize: none;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header-left-side">
+            <h1>Message me</h1>
+            <div class="contact-form">
+                <form name="myForm" ng-submit="submitForm()" novalidate>
+                    <div class="input-field">
+                        <input type="text" name="name" ng-model="formData.name" placeholder="Name" ng-required="true">
+                        <div ng-show="myForm.name.$dirty && myForm.name.$invalid">
+                            <span ng-show="myForm.name.$error.required">Name is required.</span>
+                        </div>
+                    </div>
+                    <div class="input-field">
+                        <input type="email" name="email" ng-model="formData.email" placeholder="Email"
+                            ng-required="true">
+                        <div ng-show="myForm.email.$dirty && myForm.email.$invalid">
+                            <span ng-show="myForm.email.$error.required">Email is required.</span>
+                            <span ng-show="myForm.email.$error.email">Invalid email address.</span>
+                        </div>
+                    </div>
+                    <div class="input-field">
+                        <input type="tel" name="phone" ng-model="formData.phone" placeholder="Contact Number"
+                            ng-required="true">
+                        <div ng-show="myForm.phone.$dirty && myForm.phone.$invalid">
+                            <span ng-show="myForm.phone.$error.required">Contact number is required.</span>
+                        </div>
+                    </div>
+                    <div class="input-field">
+                        <textarea name="message" ng-model="formData.message" rows="5" placeholder="Message"
+                            ng-required="true"></textarea>
+                        <div ng-show="myForm.message.$dirty && myForm.message.$invalid">
+                            <span ng-show="myForm.message.$error.required">Message is required.</span>
+                        </div>
+                    </div>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
+    </header>
+    <script>
+        var app = angular.module('myApp', []);
+        app.controller('ContactFormController', function ($scope) {
+            $scope.submitForm = function () {
+                console.log('Form submitted!'); // Check if the function is being triggered
+                if ($scope.myForm.$valid) {
+                    console.log('Form is valid!'); // Check if the form is considered valid
+                    console.log($scope.formData);
+                    alert('Thanks for contacting :) !');
+                } else {
+                    console.log('Form is invalid!'); // Check if the form is considered invalid
+                }
+            };
+        });
+    </script>
+</body>
+
+</html>
